@@ -14,7 +14,9 @@ const config = {
 
   const gestureStrings = {
     'thumbs_up': '👍',
-    'victory': '✌🏻'
+    'scissor': '✌️',
+    'rock': '✊️',
+    'paper': '🖐'
   }
 
   async function createDetector() {
