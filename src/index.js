@@ -20,6 +20,12 @@ const config = {
     'negation':'🙅‍♂️'
   }
 
+  const base = ['Horizontal', 'Diagonal Up']
+  const negation = {
+    left: [...base].map(element => element.concat(`Right`)),
+    right: [...base].map(element => element.concat(`Left`))
+  }
+
   async function createDetector() {
     return window.handPoseDetection.createDetector(
       window.handPoseDetection.SupportedModels.MediaPipeHands,
@@ -53,7 +59,23 @@ const config = {
     // load handpose model
     const detector = await createDetector()
     console.log("mediaPose model loaded")
+    const pair = new Set();
+    function checkGestureCombination(chosenHand, poseData) {
+        const addToPairIfCorrect = (chosenHand) => {
+            const containsHand = poseData.some(
+                finger => negation[chosenHand].include(finger[2])
+            )
+            if(!containsHand) return;
+            pair.add(chosenHand)
+            
+        }
 
+        addToPairIfCorrect(chosenHand)
+
+        if(pair.size !== 2)return;
+        resultLayer.left.innerText = resultLayer.right.innerText = gestureStrings.negation
+        pair.clear(); 
+    }
     // main estimation loop
     const estimateHands = async () => {
 
@@ -81,14 +103,22 @@ const config = {
             updateDebugInfo(predictions.poseData, 'left')
         }
         if (predictions.gestures.length > 0) {
+          
+            const result = predictions.gestures.reduce((p, c) => {
+                return (p.score > c.score) ? p : c
+            })
+            const found = gestureStrings[result.name]
+            // find gesture with highest match score
+            const chosenHand = hand.handedness.toLowerCase()
+            updateDebugInfo(predictions.poseData, chosenHand)
 
-          // find gesture with highest match score
-          let result = predictions.gestures.reduce((p, c) => {
-            return (p.score > c.score) ? p : c
-          })
-          const chosenHand = hand.handedness.toLowerCase()
-          resultLayer[chosenHand].innerText = gestureStrings[result.name]
-          updateDebugInfo(predictions.poseData, chosenHand)
+            // resultLayer[chosenHand].innerText = gestureStrings[result.name]
+            if(found !== gestureStrings[result.negation]){
+                resultLayer[chosenHand].innerText = found
+                continue
+            }
+            checkGestureCombination(chosenHand, predictions.poseData)
+            
         }
 
       }
