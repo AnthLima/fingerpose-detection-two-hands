@@ -1,0 +1,20 @@
+{
+  "name": "fingerpose-detection-two-hands",
+  "version": "1.0.0",
+  "description": "The goal here is to warm up for one of the js expert weeks, and also learn more about machine learning and tensorflow, finger pose recognition and then take you to a new way of browsing and using web apps.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx browser-sync start --server --files src/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnthLima/fingerpose-detection-two-hands.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnthLima/fingerpose-detection-two-hands/issues"
+  },
+  "homepage": "https://github.com/AnthLima/fingerpose-detection-two-hands#readme"
+}
