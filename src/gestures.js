@@ -44,7 +44,9 @@ ScissorsGesture.addCurl(Finger.Ring, FingerCurl.HalfCurl, 0.9);
 ScissorsGesture.addCurl(Finger.Pinky, FingerCurl.FullCurl, 1.0);
 ScissorsGesture.addCurl(Finger.Pinky, FingerCurl.HalfCurl, 0.9);
 
-
-export {
+const gestures = {
     RockGesture, PaperGesture, ScissorsGesture
+}
+export {
+    gestures
 }
