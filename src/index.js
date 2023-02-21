@@ -65,14 +65,16 @@ const config = {
         flipHorizontal: true
       })
 
+      
       for (const hand of hands) {
         for (const keypoint of hand.keypoints) {
-          const name = keypoint.name.split('_')[0].toString().toLowerCase()
-          const color = landmarkColors[name]
-          drawPoint(ctx, keypoint.x, keypoint.y, 3, color)
+            const name = keypoint.name.split('_')[0].toString().toLowerCase()
+            const color = landmarkColors[name]
+            drawPoint(ctx, keypoint.x, keypoint.y, 3, color)
         }
+        const keypoints3D = hand.keypoints3D.map(keypoint => [keypoint.x, keypoint.y, keypoint.z])
 
-        const est = GE.estimate(hand.keypoints3D, 9)
+        const est = GE.estimate(keypoints3D, 9)
         if (est.gestures.length > 0) {
 
           // find gesture with highest match score
